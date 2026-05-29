@@ -1,20 +1,20 @@
 <div align="center">
   <img src="./assets/dune-phantom-logo.png" alt="Dune Phantom Logo" width="220">
-  <h1>Dune Phantom - Gauntlet Season 1 Solutions 🛡️</h1>
-  <h3>Ember Expanse · Season 3 · Proving Grounds: The Gauntlet</h3>
+  <h1>Dune Phantom — OffSec Challenge Solutions 🏜️</h1>
+  <h3>Ember Expanse · Season 1 · Proving Grounds: The Gauntlet</h3>
 
-  [![Status](https://img.shields.io/badge/Season%201-In%20Progress-00EAFF?style=flat-square)](#)
-  [![Challenges](https://img.shields.io/badge/Completed-Week%201-BAFF29?style=flat-square)](#)
-  [![Score](https://img.shields.io/badge/Week%201-5%2F5%20Solved-00EAFF?style=flat-square)](#)
+  [![Status](https://img.shields.io/badge/Season%201-Completed-00EAFF?style=flat-square)](#)
+  [![Challenges](https://img.shields.io/badge/Weeks%20Solved-2%2F2-BAFF29?style=flat-square)](#)
+  [![Focus](https://img.shields.io/badge/Focus-Logs%20%2F%20Cloud%20IR%20%2F%20Forensics-00EAFF?style=flat-square)](#)
 </div>
 
 ---
 
-Welcome to my solution repository for the **OffSec Dune Phantom** cybersecurity challenge series! This repo contains detailed writeups, investigation reports, and inline analysis code for each weekly challenge from "Proving Grounds: The Gauntlet" event.
+Welcome to my writeup repository for the **OffSec Dune Phantom** challenge series. This repo collects investigation reports, diagrams, and supporting analysis for the weekly labs in "Proving Grounds: The Gauntlet".
 
 ---
 
-## About Dune Phantom
+## 📖 About Dune Phantom
 
 > *"The Ember Expanse has always been harsh, but it has never been uncertain. That is changing as a phantom begins stalking the sands with mirage-like cyber attacks that twist what defenders trust most, the truth in their system data."*
 
@@ -22,95 +22,120 @@ Welcome to my solution repository for the **OffSec Dune Phantom** cybersecurity 
   <video src="./assets/dune-phantom-background-video.webm" width="100%" autoplay loop muted controls></video>
 </div>
 
-Dune Phantom is a four-week Gauntlet season where challengers are dropped into escalating defensive lab scenarios. The real fight is separating signal from illusion, validating sources, exposing tampered data, and rebuilding confidence under pressure as the phantom's deception grows sharper each week.
+Dune Phantom is a defensive lab season focused on separating signal from illusion. Each week increases the pressure: first log analysis, then cloud incident response, and finally correlating evidence across systems to reconstruct a complete attack chain.
 
 ---
 
-## Challenge Solutions
+## 📂 Challenge Solutions
 
-### ✅ [Week 0 - Tutorial Challenge](./WEEK%200%20-%20Tutorial%20Challenge)
+### ✅ [Week 0 — Tutorial Challenge](./WEEK%200%20-%20Tutorial%20Challenge)
 
 <img src="./assets/tutorial.jpg" alt="Week 0 Banner" width="100%">
 
-**Status:** COMPLETED
-**Category:** Log Analysis, Path Traversal Detection
-**Difficulty:** Easy
+**Status:** COMPLETED  |  **Category:** Log Analysis / Path Traversal  |  **Difficulty:** Easy
 
-**Scenario:** Introduction to Gauntlet answer format. Participants learn how to submit descriptive text answers, then analyze a web server access log to identify a directory traversal attack targeting SSH private keys.
+**Scenario:** Introductory lab for the Dune Phantom format. The task is to analyze a web server access log, understand the answer style, and identify a directory traversal attack that exposed an SSH private key.
 
 **Key Skills:**
 - Web server log analysis
-- Path traversal vulnerability identification
-- Answer format familiarization
+- Path traversal detection
+- Evidence extraction and answer validation
 
 **Key Findings:**
-- Identified path traversal attack from IP `192.168.1.101`
-- Detected SSH private key exfiltration (`/home/dave/.ssh/id_rsa`)
-- Attack achieved HTTP 200 with 1,678 bytes exfiltrated
+- Attacker IP: `192.168.1.101`
+- Exfiltrated secret: `/home/dave/.ssh/id_rsa`
+- Result: HTTP 200 with 1,678 bytes exfiltrated
 
 **Files:**
 - [Investigation Report](./WEEK%200%20-%20Tutorial%20Challenge/INVESTIGATION_REPORT.md)
 
 ---
 
-### ✅ [Week 1 - First Illusion](./WEEK%201%20-%20First%20Illusion)
+### ✅ [Week 1 — First Illusion](./WEEK%201%20-%20First%20Illusion)
 
 <img src="./assets/first-illusion.jpg" alt="Week 1 Banner" width="100%">
 
-**Status:** COMPLETED
-**Category:** Cloud Incident Response, AWS Forensics, CI/CD Security
-**Difficulty:** Hard
+**Status:** COMPLETED  |  **Category:** Cloud Incident Response / AWS Forensics / CI/CD Security  |  **Difficulty:** Easy
 
-**Scenario:** EduNexus Learning Systems suffered a full cloud account takeover. A threat actor discovered an exposed `.git/config` on a public S3 website, extracted a GitLab Personal Access Token, backdoored a CI/CD pipeline to steal AWS IAM credentials, escalated privileges through a chain of STS AssumeRole calls, then encrypted S3 data using customer-provided encryption keys (SSE-C) and locked out defenders.
+**Scenario:** EduNexus Learning Systems suffered a multi-stage cloud account takeover. The attacker found a leaked GitLab Personal Access Token in an exposed `.git/config`, used GitLab and CI/CD abuse to steal AWS credentials, pivoted through SSM and STS, then encrypted S3 data with SSE-C and locked defenders out.
 
 **Key Skills:**
 - AWS CloudTrail management and S3 data event analysis
 - GitLab API and Nginx access log correlation
 - EC2 Systems Manager (SSM) agent log forensics
 - IAM trust relationship and AssumeRole chain mapping
-- S3 Server-Side Encryption (SSE-C) attack detection
+- S3 SSE-C abuse detection
 
 **Key Findings:**
-- Attacker used `ffuf/2.1.0-dev` to fuzz public S3 website and discover `.git/config`
-- Emily Johnson's GitLab PAT (Token ID 2, User ID 12) leaked via exposed config
-- Malicious branch `xvduapqweksk` pushed to trigger CI/CD credential theft from IMDSv2
-- SSM `SendCommand` used to inject SSH backdoor key (`ghost@finger`) on bastion host
-- Five-step IAM escalation: `GitLabRunner` > `bastion` > `Ops_t1` > `Ops_t2` > `DevOps_full`
-- S3 data encrypted via `PutObject` with SSE-C (MITRE T1486) across 17 buckets (229 objects)
-- Defender lockout via `DeleteAccessKey`/`DeleteLoginProfile` on 4 admin users
+- `ffuf/2.1.0-dev` used to discover the exposed `.git/config`
+- Emily Johnson's GitLab PAT (Token ID 2, User ID 12) leaked through the config
+- Malicious branch `xvduapqweksk` triggered CI/CD credential theft from IMDSv2
+- SSM `SendCommand` injected SSH persistence on the bastion host
+- IAM chain: `GitLabRunner` → `bastion` → `Ops_t1` → `Ops_t2` → `DevOps_full`
+- S3 objects rewritten with `PutObject` + SSE-C (MITRE ATT&CK T1486)
+- Defenders were locked out via `DeleteAccessKey` and `DeleteLoginProfile`
 
 **Files:**
 - [Investigation Report](./WEEK%201%20-%20First%20Illusion/INVESTIGATION_REPORT.md)
-- [Attack Chain Diagram](./WEEK%201%20-%20First%20Illusion/attack_chain_diagram.png)
 
 <img src="./assets/first-illusion-conclusion.jpg" alt="First Illusion Conclusion" width="100%">
 
 ### 🔮 The Mirage Begins
 
-> **The Mirage Begins**
-> By correlating logs across multiple systems, you were able to track the attacker's steps and uncover what they did, but the method used to encrypt the data is not easily reversible. As the investigation came into focus, one detail stood apart from the rest: a deliberate signature left by the intruder, a message reading, "What you trusted was the first illusion. - Dune Phantom"
-> 
-> **Beyond the Logs**
-> 
-> The Dune Phantom is not after ransom alone, but control over what defenders believe. It twists forgotten tokens, trusted automation, impersonated roles, and unquestioned logs into mirages. At EduNexus, the corrupted data was only the visible wound, its real goal is to make truth unreliable and leave defenders doubting their tools, their evidence, and each other.
+> By correlating logs across multiple systems, you were able to track the attacker's steps and uncover what they did, but the method used to encrypt the data is not easily reversible. One detail stands apart from the rest: a deliberate signature left by the intruder, a message reading, "What you trusted was the first illusion. - Dune Phantom"
+
+> The Dune Phantom is not after ransom alone. It twists forgotten tokens, trusted automation, impersonated roles, and unquestioned logs into mirages. At EduNexus, the corrupted data was only the visible wound; the real goal was to make truth unreliable and leave defenders doubting their tools, their evidence, and each other.
 
 ---
 
-## Tools and Methodology
+## 📊 Progress Tracker
 
-- **Log Parsing:** Custom Python scripts for programmatic analysis of CloudTrail JSON, Nginx access logs, GitLab Rails API logs, and SSM agent logs
-- **Cloud Forensics:** AWS CloudTrail management event and S3 data event correlation
-- **Web Application Forensics:** GitLab API request and Nginx access log correlation
-- **OS Forensics:** EC2 instance SSM agent log, audit log, and system log review
-- **IAM Analysis:** STS AssumeRole chain mapping and IAM trust policy auditing
+| # | Challenge | Status | Focus | Difficulty | Score |
+|---|---|---|---|---|---|
+| 0 | Tutorial Challenge | ✅ Completed | Log Analysis / Path Traversal | Easy | 50/50 |
+| 1 | First Illusion | ✅ Completed | Cloud IR / AWS Forensics / CI/CD Security | Easy | 5/5 |
 
 ---
 
-## Repository Structure
+## 🎯 Learning Objectives
+
+Through these challenges, I’m building practical skills in:
+
+- Incident response and investigation workflow
+- Digital forensics and evidence correlation
+- Cloud log analysis and control-plane / data-plane separation
+- CI/CD abuse and GitLab API investigation
+- IAM role chaining and trust policy analysis
+- SSM / bastion host activity tracing
+- S3 SSE-C abuse detection and impact analysis
+- Writing clear defensive writeups with screenshots, diagrams, and evidence
+
+---
+
+## 🛠️ Tools & Technologies
+
+- Log analysis: Python, regular expressions, JSON parsing
+- Cloud forensics: AWS CloudTrail, S3 data events, STS activity
+- Web investigation: GitLab API correlation, Nginx access logs
+- OS forensics: SSM agent logs, audit logs, system logs
+- Visualization: ASCII diagrams, Markdown, screenshots
+- Reference tools: Wireshark, tshark, jq, Python scripting
+
+---
+
+## 🏆 Achievements
+
+- ✅ Reconstructed the full attack chain from public S3 exposure to S3 encryption impact
+- ✅ Identified the PAT leak, CI/CD abuse, SSM persistence, and IAM hop chain
+- ✅ Built a corrected evidence-driven ASCII flowchart for Week 1
+- ✅ Documented both challenges with investigation reports and supporting artifacts
+
+---
+
+## 📝 Repository Structure
 
 ```
-dune-phantom-gauntlet-Season-3/
-├── .gitignore
+dune phantom/
 ├── README.md
 ├── assets/
 │   ├── dune-phantom-logo.png
@@ -124,3 +149,56 @@ dune-phantom-gauntlet-Season-3/
     ├── INVESTIGATION_REPORT.md
     └── attack_chain_diagram.png
 ```
+
+---
+
+## 🚀 Quick Start
+
+```bash
+git clone <your-repo-url>
+cd "dune phantom"
+```
+
+To read a specific challenge:
+
+```bash
+cd "WEEK 0 - Tutorial Challenge"
+# or
+cd "WEEK 1 - First Illusion"
+```
+
+Then open `README.md` and `INVESTIGATION_REPORT.md` in that week folder for the full writeup.
+
+---
+
+## 📚 Learning Resources
+
+- [OffSec](https://www.offsec.com/) — challenge platform and lab ecosystem
+- [MITRE ATT&CK](https://attack.mitre.org/) — technique mapping
+- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/) — web investigation reference
+- [AWS CloudTrail Documentation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html)
+- [GitLab API Documentation](https://docs.gitlab.com/ee/api/)
+- [Wireshark Documentation](https://www.wireshark.org/docs/)
+
+---
+
+## 🤝 Connect
+
+- GitHub: [@umair-aziz025](https://github.com/umair-aziz025)
+- Repository: `dune phantom`
+
+---
+
+## 📄 License
+
+This repository is for educational purposes only. Challenge scenarios belong to OffSec. The writeups and analysis here are my own work.
+
+---
+
+## ⭐ Star This Repo
+
+If you find these writeups useful, consider starring the repository.
+
+---
+
+Last Updated: May 29, 2026
