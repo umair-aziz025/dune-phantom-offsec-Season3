@@ -146,8 +146,7 @@ dune phantom/
 ├── WEEK 0 - Tutorial Challenge/
 │   └── INVESTIGATION_REPORT.md
 └── WEEK 1 - First Illusion/
-    ├── INVESTIGATION_REPORT.md
-    └── attack_chain_diagram.png
+    └── INVESTIGATION_REPORT.md
 ```
 
 ---
