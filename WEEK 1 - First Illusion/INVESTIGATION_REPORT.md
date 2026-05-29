@@ -2,7 +2,7 @@
 
 <img src="../assets/first-illusion.jpg" alt="First Illusion Banner" width="100%">
 
-**Date:** November 18, 2025 (Incident) / May 28, 2026 (Investigation) 
+**Date:** November 18, 2025 (Incident) / May 28, 2026 (Investigation)
 **Case:** Cloud Account Takeover and S3 Data Encryption  
 **Target:** EduNexus Learning Systems  
 **Compromised Systems:** GitLab CI Runner (`i-0767c6d302293aedf`), Bastion Host (`i-06a9ef79d91471a25`)  
