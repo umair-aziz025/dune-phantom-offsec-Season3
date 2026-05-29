@@ -2,8 +2,7 @@
 
 <img src="../assets/first-illusion.jpg" alt="First Illusion Banner" width="100%">
 
-**Date:** November 18, 2025 (Incident) / May 28, 2026 (Investigation)  
-**Investigator:** stxrdust  
+**Date:** November 18, 2025 (Incident) / May 28, 2026 (Investigation) 
 **Case:** Cloud Account Takeover and S3 Data Encryption  
 **Target:** EduNexus Learning Systems  
 **Compromised Systems:** GitLab CI Runner (`i-0767c6d302293aedf`), Bastion Host (`i-06a9ef79d91471a25`)  
@@ -29,33 +28,39 @@ EduNexus Learning Systems suffered a multi-stage cloud account takeover. The att
 
 ```text
 =================================================================================================
-                                  VISUAL ATTACK CHAIN DIAGRAM
+                    EVIDENCE-DRIVEN ATTACK CHAIN DIAGRAM
 =================================================================================================
 
-  🔴 Emily Johnson
-     [GitLab PAT Leak]
-            │
-            ▼
-  🔵 GitLab CI ──────────────────────────────────────► 🔵 IMDSv2
-     [Backdoor Branch]                                    [Credential Exfiltration]
-                                                              │
-                                ┌─────────────────────────────┴─────────────────────────────┐
-                                │                                                           │
-                                ▼                                                           ▼
-  🟡 Systems Manager ◄────────────────────────────────────────────────────────────────────── 🟡 Bastion Host
-     [SendCommand]                                                                            [SSH Persistence]
-            │
-            ▼
-  🟠 STS Session
-     [assumed session: ghost]
-            │
-            ▼
-  🟠 STS Role Hops
-     [Ops_t1 -> Ops_t2 -> DevOps_full]
-            │
-            ▼
-  🔴 S3 SSE-C Ransomware
-     & IAM Wiping
+  🔴 Public S3 Website
+    [exposed `.git/config`]
+        │  (fuzzed with `ffuf/2.1.0-dev`)
+        ▼
+  🔴 Leaked GitLab PAT
+    [Emily Johnson / Token ID 2]
+        │  (confirmed in `gitlab/nginx/gitlab_access.log` + `api_json.log`)
+        ▼
+  🔵 GitLab API Abuse
+    [repo search + malicious branch push]
+        │
+        ├────────────────────────► 🔵 Malicious Branch `xvduapqweksk`
+        │                           [CI/CD pipeline trigger]
+        │
+        ▼
+  🔵 GitLab CI Runner
+    [job trace + IMDSv2 credential theft]
+        │  (from runner audit + CI trace evidence)
+        ▼
+  🟡 EC2 Bastion via SSM
+    [SendCommand / SSH persistence]
+        │  (exact payload recovered from SSM agent log)
+        ▼
+  🟠 STS Pivot Chain
+    [`ghost` session → `Ops_t1` → `Ops_t2` → `DevOps_full`]
+        │
+        ▼
+  🔴 AWS Impact
+    [S3 PutObject with SSE-C encryption]
+    [IAM lockout via DeleteAccessKey / DeleteLoginProfile]
 =================================================================================================
 ```
 
