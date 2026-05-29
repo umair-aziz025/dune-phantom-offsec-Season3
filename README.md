@@ -1,10 +1,10 @@
 <div align="center">
   <img src="./assets/dune-phantom-logo.png" alt="Dune Phantom Logo" width="220">
   <h1>Dune Phantom — OffSec Challenge Solutions 🏜️</h1>
-  <h3>Ember Expanse · Season 1 · Proving Grounds: The Gauntlet</h3>
+  <h3>Ember Expanse · Season 3 · Proving Grounds: The Gauntlet</h3>
 
-  [![Status](https://img.shields.io/badge/Season%201-Completed-00EAFF?style=flat-square)](#)
-  [![Challenges](https://img.shields.io/badge/Weeks%20Solved-2%2F2-BAFF29?style=flat-square)](#)
+  [![Status](https://img.shields.io/badge/Season%201%20%26%202-Completed-00EAFF?style=flat-square)](#)
+  [![Challenges](https://img.shields.io/badge/Week%201%2F4-Completed-BAFF29?style=flat-square)](#)
   [![Focus](https://img.shields.io/badge/Focus-Logs%20%2F%20Cloud%20IR%20%2F%20Forensics-00EAFF?style=flat-square)](#)
 </div>
 
