@@ -10,6 +10,10 @@
 
 ---
 
+> **A Note on the Remaining Labs:** Unfortunately, I couldn't complete the remaining two challenges of the Dune Phantom series due to time constraints and some unexpected issues that demanded my immediate attention. Sorry about that! But rest assured, I will **TRY hard, and we will come back in the coming season..!**
+
+---
+
 Welcome to my writeup repository for the **OffSec Dune Phantom** challenge series. This repo collects investigation reports, screenshots, diagrams, and supporting analysis for the weekly labs in "Proving Grounds: The Gauntlet".
 
 ---
@@ -118,12 +122,6 @@ Dune Phantom is a defensive lab season focused on separating signal from illusio
 ### Beyond the Logs
 
 > You disrupted the phishing campaign. Further investigation revealed that both the phishing framework and the Dune Phantom's infrastructure were AI-generated, suggesting the attacker deployed a purchased phishing-framework-as-a-service kit without meaningful customization.
-
----
-
-## A Note on the Remaining Labs
-
-Unfortunately, I couldn't complete the remaining two challenges of the Dune Phantom series due to some unexpected constraints (hardware and scheduling issues) that demanded my immediate attention. Sorry about that! But rest assured, I will **TRY hard, and we will come back in the coming season..!**
 
 ---
 
