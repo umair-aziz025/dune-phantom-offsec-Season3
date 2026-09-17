@@ -121,6 +121,12 @@ Dune Phantom is a defensive lab season focused on separating signal from illusio
 
 ---
 
+## A Note on the Remaining Labs
+
+Unfortunately, I couldn't complete the remaining two challenges of the Dune Phantom series due to some unexpected constraints (hardware and scheduling issues) that demanded my immediate attention. Sorry about that! But rest assured, I will **TRY hard, and we will come back in the coming season..!**
+
+---
+
 ## Progress Tracker
 
 | # | Challenge | Status | Focus | Difficulty | Score |
@@ -241,4 +247,10 @@ This repository is for educational purposes only. Challenge scenarios belong to 
 
 ---
 
-Last Updated: June 3, 2026
+Last Updated: September 17, 2026
+
+---
+
+<div align="center">
+  <em>"When the logs contradict and the evidence vanishes like a mirage in the Ember Expanse, restoring the truth is the only way to win."</em>
+</div>
